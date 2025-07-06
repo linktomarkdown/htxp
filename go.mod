@@ -2,7 +2,10 @@ module github.com/linktomarkdown/htxp
 
 go 1.23.0
 
-require github.com/zeromicro/go-zero v1.8.4
+require (
+	github.com/rabbitmq/amqp091-go v1.10.0
+	github.com/zeromicro/go-zero v1.8.4
+)
 
 require (
 	github.com/fatih/color v1.18.0 // indirect
