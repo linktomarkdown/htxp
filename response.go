@@ -15,21 +15,21 @@ type Body struct {
 
 // Success 处理成功响应
 func Success(w http.ResponseWriter, data interface{}) {
-	Response(w, data, nil, http.StatusOK, 200)
+	Response(w, data, nil, 200)
 }
 
-// Error 处理错误响应（默认 code -1, httpStatus 200）
+// Error 处理错误响应（默认 code -1）
 func Error(w http.ResponseWriter, err error) {
-	Response(w, nil, err, http.StatusOK, -1)
+	Response(w, nil, err, -1)
 }
 
-// ErrorWithCode 支持自定义 httpStatus 和 code
-func ErrorWithCode(w http.ResponseWriter, err error, httpStatus, code int) {
-	Response(w, nil, err, httpStatus, code)
+// ErrorWithCode 支持自定义 code
+func ErrorWithCode(w http.ResponseWriter, err error, code int) {
+	Response(w, nil, err, code)
 }
 
 // Response 统一处理HTTP响应
-func Response(w http.ResponseWriter, resp interface{}, err error, httpStatus, code int) {
+func Response(w http.ResponseWriter, resp interface{}, err error, code int) {
 	var body Body
 	if err != nil {
 		body.Code = code
@@ -39,5 +39,5 @@ func Response(w http.ResponseWriter, resp interface{}, err error, httpStatus, co
 		body.Msg = "success"
 		body.Data = resp
 	}
-	httpx.WriteJson(w, httpStatus, body)
+	httpx.OkJson(w, body)
 }
