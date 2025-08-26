@@ -3,6 +3,7 @@ package htxp
 import (
 	"crypto/md5"
 	crand "crypto/rand"
+	"database/sql"
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
@@ -18,6 +19,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
+	"golang.org/x/crypto/bcrypt"
 
 	"context"
 	"net/http"
@@ -392,4 +394,88 @@ func GetUIDFromLogic(ctx context.Context) (uint64, error) {
 		return 0, fmt.Errorf("failed to convert uid to uint64: %w", err)
 	}
 	return uidInt, nil
+}
+
+// HashPassword 加密密码
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes), err
+}
+
+// CheckPassword 验证密码
+func CheckPassword(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
+// Paginate 分页工具
+func Paginate(page, pageSize int64) (offset, limit int) {
+	if page < 1 {
+		page = 1
+	}
+	if pageSize < 1 {
+		pageSize = 10
+	}
+	if pageSize > 100 {
+		pageSize = 100
+	}
+
+	offset = int((page - 1) * pageSize)
+	limit = int(pageSize)
+	return
+}
+
+// CalculateTotalPages 计算总页数
+func CalculateTotalPages(total, pageSize int64) int64 {
+	if total == 0 {
+		return 0
+	}
+	return int64(math.Ceil(float64(total) / float64(pageSize)))
+}
+
+// StringPtr 字符串指针
+func StringPtr(s string) *string {
+	return &s
+}
+
+// Int64Ptr 整数指针
+func Int64Ptr(i int64) *int64 {
+	return &i
+}
+
+// Float64Ptr 浮点数指针
+func Float64Ptr(f float64) *float64 {
+	return &f
+}
+
+// NullFloat64Ptr 创建 sql.NullFloat64
+func NullFloat64Ptr(f float64) sql.NullFloat64 {
+	return sql.NullFloat64{
+		Float64: f,
+		Valid:   true,
+	}
+}
+
+// NullInt64Ptr 创建 sql.NullInt64
+func NullInt64Ptr(i int64) sql.NullInt64 {
+	return sql.NullInt64{
+		Int64: i,
+		Valid: true,
+	}
+}
+
+// NullStringPtr 创建 sql.NullString
+func NullStringPtr(s string) sql.NullString {
+	return sql.NullString{
+		String: s,
+		Valid:  true,
+	}
+}
+
+// NullTimePtr 创建 sql.NullTime
+func NullTimePtr(t time.Time) sql.NullTime {
+	return sql.NullTime{
+		Time:  t,
+		Valid: true,
+	}
 }
