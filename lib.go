@@ -479,3 +479,51 @@ func NullTimePtr(t time.Time) sql.NullTime {
 		Valid: true,
 	}
 }
+
+// GetStringValue 获取 sql.NullString 的值
+func GetStringValue(ns interface{}) string {
+	if ns == nil {
+		return ""
+	}
+	// 处理 sql.NullString 类型
+	if nullStr, ok := ns.(interface{ String() string }); ok {
+		return nullStr.String()
+	}
+	return ""
+}
+
+// FormatTimeToTimestamp 将时间转换为时间戳字符串（毫秒级）
+func FormatTimeToTimestamp(nullTime sql.NullTime) string {
+	if !nullTime.Valid {
+		return ""
+	}
+	// 将时间转换为毫秒级时间戳
+	timestamp := nullTime.Time.UnixMilli()
+	return strconv.FormatInt(timestamp, 10)
+}
+
+// FormatTimeToUnix 将时间转换为Unix时间戳字符串（秒级）
+func FormatTimeToUnix(nullTime sql.NullTime) string {
+	if !nullTime.Valid {
+		return ""
+	}
+	// 将时间转换为秒级时间戳
+	timestamp := nullTime.Time.Unix()
+	return strconv.FormatInt(timestamp, 10)
+}
+
+// FormatTimeToUnixInt64 将时间转换为Unix时间戳（秒级）
+func FormatTimeToUnixInt64(nullTime sql.NullTime) int64 {
+	if !nullTime.Valid {
+		return 0
+	}
+	return nullTime.Time.Unix()
+}
+
+// FormatTimeToTimestampInt64 将时间转换为时间戳（毫秒级）
+func FormatTimeToTimestampInt64(nullTime sql.NullTime) int64 {
+	if !nullTime.Valid {
+		return 0
+	}
+	return nullTime.Time.UnixMilli()
+}
