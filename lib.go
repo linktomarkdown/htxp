@@ -528,34 +528,18 @@ func FormatTimeToTimestampInt64(nullTime sql.NullTime) int64 {
 	return nullTime.Time.UnixMilli()
 }
 
-// FormatTimeToUnixFromTime 将 time.Time 转换为Unix时间戳字符串（秒级）
-func FormatTimeToUnixFromTime(t time.Time) string {
-	if t.IsZero() {
+// FormatUnixToString 将Unix时间戳转换为字符串
+func FormatUnixToString(timestamp int64) string {
+	if timestamp == 0 {
 		return ""
 	}
-	return strconv.FormatInt(t.Unix(), 10)
+	return strconv.FormatInt(timestamp, 10)
 }
 
-// FormatTimeToTimestampFromTime 将 time.Time 转换为时间戳字符串（毫秒级）
-func FormatTimeToTimestampFromTime(t time.Time) string {
-	if t.IsZero() {
+// FormatTimestampToString 将毫秒级时间戳转换为字符串
+func FormatTimestampToString(timestamp int64) string {
+	if timestamp == 0 {
 		return ""
 	}
-	return strconv.FormatInt(t.UnixMilli(), 10)
-}
-
-// FormatTimeToUnixInt64FromTime 将 time.Time 转换为Unix时间戳（秒级）
-func FormatTimeToUnixInt64FromTime(t time.Time) int64 {
-	if t.IsZero() {
-		return 0
-	}
-	return t.Unix()
-}
-
-// FormatTimeToTimestampInt64FromTime 将 time.Time 转换为时间戳（毫秒级）
-func FormatTimeToTimestampInt64FromTime(t time.Time) int64 {
-	if t.IsZero() {
-		return 0
-	}
-	return t.UnixMilli()
+	return strconv.FormatInt(timestamp, 10)
 }
