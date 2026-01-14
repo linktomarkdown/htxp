@@ -3,6 +3,7 @@ package htxp
 import (
 	"crypto/rand"
 	"encoding/base64"
+
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -20,7 +21,7 @@ func GenToken(secretKey string, iat, seconds int64, claims jwt.MapClaims) (strin
 	}
 	claims["exp"] = iat + seconds
 	claims["iat"] = iat
-	
+
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
 	return token.SignedString([]byte(secretKey))

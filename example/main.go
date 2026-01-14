@@ -10,9 +10,6 @@ import (
 )
 
 func main() {
-	// 初始化日志
-	htxp.InitLogrus()
-
 	// 示例：生成各种随机字符串
 	fmt.Println("生成订单号:", htxp.GenerateOrderNo())
 	fmt.Println("生成订单ID:", htxp.GenerateOrderID("wechat"))
@@ -92,7 +89,7 @@ func main() {
 			"orderNo":    htxp.GenerateOrderNo(),
 			"orderID":    htxp.GenerateOrderID("alipay"),
 			"randomName": htxp.GenerateName(8),
-			"randomUUID": htxp.GenerateRandomUUID(),
+			// "randomUUID": htxp.GenerateRandomUUID(),
 			"md5Hash":    htxp.Md5V("test123"),
 		}
 		htxp.Success(w, randomData)
