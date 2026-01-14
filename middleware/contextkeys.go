@@ -10,6 +10,8 @@ const (
 	ContextKeyIsAdmin contextKey = "isAdmin"
 	// ContextKeyUserInfo 用户完整信息（可选）
 	ContextKeyUserInfo contextKey = "userInfo"
+	// ContextKeyIsExtensionsVip 是否是扩展VIP
+	ContextKeyIsExtensionsVip contextKey = "isExtensionsVip"
 	// ContextKeyIsTutorialVip 是否是教程会员
 	ContextKeyIsTutorialVip contextKey = "isTutorialVip"
 	// ContextKeyPurchasedLessonIds 已购买的课程ID列表
